@@ -1,0 +1,84 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <!-- Card Container -->
+      <div class="card shadow">
+        <!-- Card Header -->
+        <div class="card-header bg-primary text-white text-center">
+          <h4><i class="fas fa-dumbbell me-2"></i>ApexGym Login</h4>
+        </div>
+        
+        <!-- Card Body -->
+        <div class="card-body p-4">
+          <!-- Error Message Display -->
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Login Form -->
+          <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+            <!-- Email Input Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                name="email"
+                [(ngModel)]="loginData.email"
+                placeholder="Enter your email"
+                required
+                email
+                #email="ngModel">
+              
+              <!-- Validation Messages -->
+              <div *ngIf="email.invalid && email.touched" class="text-danger">
+                <small *ngIf="email.errors?.['required']">Email is required</small>
+                <small *ngIf="email.errors?.['email']">Please enter a valid email</small>
+              </div>
+            </div>
+
+            <!-- Password Input Field -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                name="password"
+                [(ngModel)]="loginData.password"
+                placeholder="Enter your password"
+                required
+                minlength="6"
+                #password="ngModel">
+              
+              <!-- Validation Messages -->
+              <div *ngIf="password.invalid && password.touched" class="text-danger">
+                <small *ngIf="password.errors?.['required']">Password is required</small>
+                <small *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</small>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100 py-2"
+              [disabled]="loginForm.invalid || isLoading">
+              
+              <span *ngIf="!isLoading">Login</span>
+              <span *ngIf="isLoading">
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                Logging in...
+              </span>
+            </button>
+          </form>
+
+          <!-- Register Link -->
+          <div class="text-center mt-3">
+            <small>Don't have an account? <a routerLink="/register" class="text-decoration-none">Register here</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
