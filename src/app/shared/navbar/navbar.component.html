@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fas fa-dumbbell me-2"></i>ApexGym
+    </a>
+    <div class="navbar-nav ms-auto">
+      <a class="nav-link" routerLink="/login" *ngIf="!isLoggedIn()">Login</a>
+<a class="nav-link" routerLink="/register" *ngIf="!isLoggedIn()">Register</a>
+<a class="nav-link" (click)="logout()" *ngIf="isLoggedIn()">Logout</a>
+
+    </div>
+  </div>
+</nav>

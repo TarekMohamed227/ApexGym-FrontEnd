@@ -37,6 +37,7 @@ export class LoginComponent {
         this.isLoading = false;
         console.log('Login successful:', response);
         // TODO: Store token and redirect to dashboard
+        this.authService.storeToken(response.token);
       },
       error: (error) => {
         // Error handling

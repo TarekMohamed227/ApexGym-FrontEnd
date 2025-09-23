@@ -1,25 +1,8 @@
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">
-      <i class="fas fa-dumbbell me-2"></i>ApexGym
-    </a>
-    
-    <!-- Navigation Links (will add later) -->
-    <div class="navbar-nav ms-auto">
-      <a class="nav-link" routerLink="/login" *ngIf="!isLoggedIn()">Login</a>
-      <a class="nav-link" routerLink="/register" *ngIf="!isLoggedIn()">Register</a>
-      <!-- We'll add more links later for authenticated users -->
-    </div>
-  </div>
-</nav>
+<!-- Navbar -->
+<app-navbar></app-navbar>
 
-<!-- Main Content Area - This is where components appear -->
+<!-- Main content rendered here by router -->
 <router-outlet></router-outlet>
 
-<!-- Footer (optional) -->
-<footer class="bg-dark text-light text-center py-3 mt-5">
-  <div class="container">
-    <p>&copy; 2024 ApexGym Management System. All rights reserved.</p>
-  </div>
-</footer>
+<!-- Footer -->
+<app-footer></app-footer>

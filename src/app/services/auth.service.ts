@@ -1,42 +1,63 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
+export { RegisterRequest };
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-private apiUrl = 'http://localhost:5206/api/auth';
-private tokenKey = 'apexgym_token';
-    constructor(private http: HttpClient) { }
+  private apiUrl = environment.apiUrl + '/auth'; 
+  private tokenKey = 'apexgym_token';
 
-    login(loginData: LoginRequest): Observable<AuthResponse> {
+  // Initialize signal as false
+  isLoggedInSignal = signal<boolean>(false);
+
+  constructor(private http: HttpClient) {
+    // ✅ Access localStorage safely only in the constructor (browser)
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem(this.tokenKey);
+      this.isLoggedInSignal.set(!!token);
+    }
+  }
+
+  login(loginData: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, loginData);
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, registerData);
   }
+
   isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+    return this.isLoggedInSignal();
   }
 
-  // NEW: Store token after successful login/register
-  private storeToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  storeToken(token: string): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(this.tokenKey, token);
+      this.isLoggedInSignal.set(true);
+    }
   }
 
-  // NEW: Logout method
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(this.tokenKey);
+      this.isLoggedInSignal.set(false);
+    }
   }
 
-  // NEW: Get stored token
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(this.tokenKey);
+    }
+    return null;
   }
 }
 
-export { RegisterRequest };
+
+
+
 
