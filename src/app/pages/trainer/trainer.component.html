@@ -1,0 +1,177 @@
+<div class="container mt-4">
+
+<!------------------------------------------------------------->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2><i class="fas fa-users me-2"></i>Gym trainers</h2>
+      <small class="text-muted" *ngIf="!isLoading()">
+        Loaded {{ trainers().length }} trainers
+      </small>
+    </div>
+    <div>
+      <!-- <div class="mb-3 d-flex">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search members..."
+          [(ngModel)]="searchText"
+          (input)="searchMembers(searchText)" />
+
+        <button
+          *ngIf="searchText"
+          class="btn btn-outline-secondary ms-2"
+          (click)="searchText=''; searchMembers(searchText)">
+          ✖ Clear
+        </button>
+      </div> -->
+      <!-- <button class="btn btn-outline-secondary me-2" (click)="onRefresh()" [disabled]="isLoading()">
+        <i class="fas fa-sync-alt" [class.fa-spin]="isLoading()"></i> Refresh
+      </button> -->
+      <button class="btn btn-primary" (click)="toggleAddForm()" >
+        <i class="fas fa-plus me-1"></i>
+        {{ showAddForm() ? 'Cancel' : 'Add Member' }}
+      </button>
+    </div>
+  </div>
+
+<!------------------------------------------------------------>
+
+  <!-- LOADING INDICATOR -->
+  <div *ngIf="isLoading()" class="text-center py-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading trainers...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading trainer data...</p>
+  </div>
+
+   <div *ngIf="showAddForm()" class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Register New Member</h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="onAddTrainer()" #trainerForm="ngForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">First Name *</label>
+              <input type="text" class="form-control"
+                     [(ngModel)]="newTrainer.firstName"
+                     name="firstName" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Last Name *</label>
+              <input type="text" class="form-control"
+                     [(ngModel)]="newTrainer.lastName"
+                     name="lastName" required>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Specialization *</label>
+              <input type="text" class="form-control"
+                     [(ngModel)]="newTrainer.specialization"
+                     name="specialization" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Years Of Experience</label>
+              <input type="number" class="form-control"
+       [(ngModel)]="newTrainer.yearsOfExperience"
+       name="yearsOfExperience">
+
+            </div>
+          </div>
+        </div>
+
+       <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Bio *</label>
+              <input type="text" class="form-control"
+                     [(ngModel)]="newTrainer.bio"
+                     name="bio" required>
+            </div>
+          </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success"
+                  [disabled]="!newTrainer.firstName || !newTrainer.lastName || !newTrainer.specialization">
+            <i class="fas fa-save me-1"></i> Register Member
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="toggleAddForm()">
+            <i class="fas fa-times me-1"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    <div *ngIf="!isLoading() && trainers().length > 0; else notrainers">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>specialization</th>
+                    <th>yearsOfExperience</th>
+                    <th>bio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let trainer of filteredMembersSignal()">
+
+                    <td>
+                        <div class="fw-bold">{{ trainer.firstName }} {{ trainer.lastName }}</div>
+                    </td>
+                    <td>{{ trainer.lastName }}</td>
+                    
+                    <td>{{ trainer.specialization }}</td>
+                    <td>
+
+                        {{ trainer.yearsOfExperience }}
+
+
+                    </td>
+                    <td>
+                        {{ trainer.bio }}
+                    </td>
+
+                    <td>
+                        <!-- <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-primary" 
+                        (click)="onEditMember(member)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editMemberModal"
+                        title="Edit member">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-outline-danger" 
+                        (click)="onDeleteMember(member.id)"
+                        [disabled]="editingMember() !== null"
+                        title="Delete member">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<ng-template #notrainers>
+    <div *ngIf="!isLoading()" class="alert alert-info text-center">
+        <i class="fas fa-info-circle me-2"></i>
+        No trainers found.
+        <!-- <button class="btn btn-sm btn-outline-info ms-2" (click)="toggleAddForm()">
+        Add your first trainer
+      </button> -->
+    </div>
+</ng-template>
+</div>

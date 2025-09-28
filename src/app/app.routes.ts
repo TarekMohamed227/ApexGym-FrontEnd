@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MembersComponent } from './pages/members/members.component';
+import { TrainerComponent } from './pages/trainer/trainer.component';
 
 export const routes: Routes = [
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'members', component: MembersComponent },
+      { path: 'trainers', component: TrainerComponent },
       // Trainers, Classes will be added here later
       { path: '', redirectTo: 'members', pathMatch: 'full' }
     ]

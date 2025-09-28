@@ -10,10 +10,11 @@ import { MemberDto, MemberCreateDto, MemberUpdateDto } from '../models/member.mo
 })
 export class MemberService {
   // FIX: Add /api prefix to match your .NET API structure
-  private apiUrl = environment.apiUrl + '/api/members';
+  private apiUrl = environment.apiUrl + '/members';
 
   // Signals for state management
   membersSignal = signal<MemberDto[]>([]);
+  filteredMembersSignal = signal<MemberDto[]>([]);
   isLoadingSignal = signal<boolean>(false);
   errorSignal = signal<string | null>(null);
   
@@ -29,6 +30,7 @@ export class MemberService {
     this.http.get<MemberDto[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.membersSignal.set(data);
+        this.filteredMembersSignal.set(data)
         this.isLoadingSignal.set(false);
         console.log('Members loaded successfully:', data.length);
       },

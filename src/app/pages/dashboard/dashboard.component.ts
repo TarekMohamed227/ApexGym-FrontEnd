@@ -6,7 +6,7 @@ import { MembersComponent } from "../members/members.component";
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, MembersComponent],
+  imports: [ RouterOutlet],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
